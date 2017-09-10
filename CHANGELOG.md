@@ -5,6 +5,50 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### [2.18.0] - 2017-xx-xx
+
+### [2.17.9] - 2017-xx-xx
+
+## [2.17.8] - 2017-09-08
+### Fixed
+- Login with LDAP is now working again / App show the login page all the time #365
+- Dowload File Connection Failed #364
+
+## [2.17.7] - 2017-09-04
+### Added
+- Added slovakian language (SK)
+- Added new Activity Client for verbose high : https://github.com/nextcloud/ios/commit/abaeae6d44ef0945cd1d013339daf4bb0e01ecd0
+
+### Fixed
+- Bug fix https://github.com/nextcloud/ios/commit/24d56394cc0655f5d3ae89791f7be54a43997a95 
+
+### Changed
+- Added 2 pt. dimension font on Notification view : https://github.com/nextcloud/ios/commit/909ab9e3637d70bc594154325a346adde455f5be
+
+## [2.17.6] - 2017-08-31
+### Added
+- Hide Hidden Files #102
+- Now is possible create/modify file txt
+- Now is possible the login with your email
+- Added the auto-detect for non-UTF-8 text on view txt file
+
+### Fixed
+- App crashes instantly after start up #314
+- 401 responses are ignored #334
+- Fix used/stored user ID (authentication manager with LDAP) #331
+- Upload menu is at wrong position on iPad at landscape mode #155
+- Theming issue
+- Fixed share information (share/mont with you)
+- Fixed Notification view (now with variable high)
+- Fixed tab More
+- Fixed re-send images/videos modify (auto upload), now send only new images/videos
+- Correct several minor bug and improved stability
+
+### Changed
+- Office 365 and NextCloud IOS app not saving modification to document #311
+- Improved the upload (now no limit number for select images/videos for upload)
+- Improved the download for entire directory and favorites directory
+- Improved the menu (+) now detect the actual folder on Favorite tab and Photo tab
 
 ## [2.17.5] - 2017-07-28
 ### Added
