@@ -397,16 +397,6 @@
             errorCode = httpResponse.statusCode;
         else
             errorCode = error.code;
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
-        
-        // Request trusted certificated
-        if (errorCode == NSURLErrorServerCertificateUntrusted)
-            [[CCCertificate sharedManager] presentViewControllerCertificateWithTitle:[error localizedDescription] viewController:(UIViewController *)self.delegate delegate:self];
     }
 
     // ----------------------- DOWNLOAD -----------------------

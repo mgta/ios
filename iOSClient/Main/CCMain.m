@@ -1109,7 +1109,10 @@
 
 - (void)getExternalSitesServerFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
-    NSLog(@"[LOG] Get external site failure error %lu, %@", (long)errorCode, message);
+    NSString *error = [NSString stringWithFormat:@"Get external site failure error %lu, %@", (long)errorCode, message];
+    NSLog(@"[LOG] %@", error);
+    
+    [[NCManageDatabase sharedInstance] addActivityClient:@"" fileID:@"" action:k_activityDebugActionCapabilities selector:@"Get External Sites Server" note:error type:k_activityTypeFailure verbose:k_activityVerboseHigh activeUrl:app.activeUrl];
 }
 
 #pragma --------------------------------------------------------------------------------------------
@@ -1126,7 +1129,10 @@
 
 - (void)getActivityServerFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
-    NSLog(@"[LOG] Get Activity Server failure error %lu, %@", (long)errorCode, message);
+    NSString *error = [NSString stringWithFormat:@"Get Activity Server failure error %lu, %@", (long)errorCode, message];
+    NSLog(@"[LOG] %@", error);
+    
+    [[NCManageDatabase sharedInstance] addActivityClient:@"" fileID:@"" action:k_activityDebugActionCapabilities selector:@"Get Activity Server" note:error type:k_activityTypeFailure verbose:k_activityVerboseHigh activeUrl:app.activeUrl];
 }
 
 #pragma --------------------------------------------------------------------------------------------
@@ -1173,8 +1179,11 @@
 
 - (void)getNotificationServerFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
-    NSLog(@"[LOG] Get Notification Server failure error %lu, %@", (long)errorCode, message);
-
+    NSString *error = [NSString stringWithFormat:@"Get Notification Server failure error %lu, %@", (long)errorCode, message];
+    NSLog(@"[LOG] %@", error);
+    
+    [[NCManageDatabase sharedInstance] addActivityClient:@"" fileID:@"" action:k_activityDebugActionCapabilities selector:@"Get Notification Server" note:error type:k_activityTypeFailure verbose:k_activityVerboseHigh activeUrl:app.activeUrl];
+    
     // Update NavigationBar
     if (!_isSelectedMode)
         [self setUINavigationBarDefault];
@@ -1198,12 +1207,22 @@
 
 - (void)getUserProfileFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
-    NSLog(@"[LOG] Get user profile failure error %lu, %@", (long)errorCode, message);
+    NSString *error = [NSString stringWithFormat:@"Get user profile failure error %lu, %@", (long)errorCode, message];
+    NSLog(@"[LOG] %@", error);
+    
+    [[NCManageDatabase sharedInstance] addActivityClient:@"" fileID:@"" action:k_activityDebugActionCapabilities selector:@"Get user profile Server" note:error type:k_activityTypeFailure verbose:k_activityVerboseHigh activeUrl:app.activeUrl];
 }
 
 - (void)getUserProfileSuccess:(CCMetadataNet *)metadataNet userProfile:(OCUserProfile *)userProfile
 {
+    // Update User (+ userProfile.id)
     [[NCManageDatabase sharedInstance] setAccountsUserProfile:userProfile];
+    
+    // Get Account Active
+    tableAccount *account = [[NCManageDatabase sharedInstance] getAccountActive];
+    
+    // Setting App active account
+    [app settingActiveAccount:account.account activeUrl:account.url activeUser:account.user activePassword:account.password];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
@@ -1224,7 +1243,10 @@
 
 - (void)getCapabilitiesOfServerFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
-    NSLog(@"[LOG] Get Capabilities failure error %lu, %@", (long)errorCode, message);
+    NSString *error = [NSString stringWithFormat:@"Get Capabilities failure error %lu, %@", (long)errorCode, message];
+    NSLog(@"[LOG] %@", error);
+    
+    [[NCManageDatabase sharedInstance] addActivityClient:@"" fileID:@"" action:k_activityDebugActionCapabilities selector:@"Get Capabilities of Server" note:error type:k_activityTypeFailure verbose:k_activityVerboseHigh activeUrl:app.activeUrl];
     
     // Change Theming color
     [app settingThemingColorBrand];
@@ -5811,8 +5833,17 @@
         
         } else {
            
-            if (viewController.isViewLoaded)
-                [self.navigationController pushViewController:viewController animated:YES];
+            if (viewController.isViewLoaded) {
+                
+                // Fix : Application tried to present modally an active controller
+                if ([self.navigationController isBeingPresented]) {
+                    // being presented
+                } else if ([self.navigationController isMovingToParentViewController]) {
+                    // being pushed
+                } else {
+                    [self.navigationController pushViewController:viewController animated:YES];
+                }
+            }
         }
     }
 }
