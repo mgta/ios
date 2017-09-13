@@ -43,26 +43,7 @@
     self.login.backgroundColor = [NCBrandColor sharedInstance].customer;
     
     // Bottom label
-    self.bottomLabel.text = NSLocalizedString([NCBrandOptions sharedInstance].textLoginProvider, nil);
-    self.bottomLabel.userInteractionEnabled = YES;
-    
-    if ([NCBrandOptions sharedInstance].disable_linkLoginProvider) {
-        self.bottomLabel.hidden = YES;
-    }
-
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tabBottomLabel)];
-    [self.bottomLabel addGestureRecognizer:tapGesture];
-    
-    if (self.view.frame.size.width == ([[UIScreen mainScreen] bounds].size.width*([[UIScreen mainScreen] bounds].size.width<[[UIScreen mainScreen] bounds].size.height))+([[UIScreen mainScreen] bounds].size.height*([[UIScreen mainScreen] bounds].size.width>[[UIScreen mainScreen] bounds].size.height))) {
-        
-        // Portrait
-        self.bottomLabel.hidden = NO;
-        
-    } else {
-        
-        // Landscape
-        self.bottomLabel.hidden = YES;
-    }
+    self.bottomLabel.hidden = YES;
     
     self.annulla.tintColor = [NCBrandColor sharedInstance].customer;
     
