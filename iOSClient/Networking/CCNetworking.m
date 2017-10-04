@@ -36,6 +36,7 @@
     NSString *_activeAccount;
     NSString *_activePassword;
     NSString *_activeUser;
+    NSString *_activeUserID;
     NSString *_activeUrl;
     NSString *_directoryUser;
 }
@@ -84,6 +85,7 @@
     _activeAccount = tableAccount.account;
     _activePassword = tableAccount.password;
     _activeUser = tableAccount.user;
+    _activeUserID = tableAccount.userID;
     _activeUrl = tableAccount.url;
     _directoryUser = [CCUtility getDirectoryActiveUser:_activeUser activeUrl:_activeUrl];
 }
@@ -769,7 +771,21 @@
             
             [[PHImageManager defaultManager] requestImageDataForAsset:asset options:options resultHandler:^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
                 
-                [imageData writeToFile:[NSString stringWithFormat:@"%@/%@", _directoryUser, metadataNet.fileName] options:NSDataWritingAtomic error:&error];
+                tableAccount *tableAccount = [[NCManageDatabase sharedInstance] getAccountActive];
+
+                if ([dataUTI isEqualToString:@"public.heic"] && tableAccount.autoUploadFormatCompatibility) {
+                    
+                    UIImage *image = [UIImage imageWithData:imageData];
+                    NSData *imageDataJPEG = UIImageJPEGRepresentation(image, 1.0);
+                    NSString *fileNameJPEG = [[metadataNet.fileName lastPathComponent] stringByDeletingPathExtension];
+                    metadataNet.fileName = [fileNameJPEG stringByAppendingString:@".jpg"];
+                    
+                    [imageDataJPEG writeToFile:[NSString stringWithFormat:@"%@/%@", _directoryUser, metadataNet.fileName] options:NSDataWritingAtomic error:&error];
+                    
+                } else {
+                    
+                    [imageData writeToFile:[NSString stringWithFormat:@"%@/%@", _directoryUser, metadataNet.fileName] options:NSDataWritingAtomic error:&error];
+                }
                 
                 if (error) {
                 
@@ -840,7 +856,7 @@
 
 - (void)uploadFile:(NSString *)fileName serverUrl:(NSString *)serverUrl session:(NSString *)session taskStatus:(NSInteger)taskStatus selector:(NSString *)selector selectorPost:(NSString *)selectorPost errorCode:(NSInteger)errorCode delegate:(id)delegate
 {
-    [self upload:fileName serverUrl:serverUrl assetLocalIdentifier:nil session:session taskStatus:taskStatus selector:selector selectorPost:selectorPost  errorCode:errorCode delegate:delegate];
+    [self upload:fileName serverUrl:serverUrl assetLocalIdentifier:nil session:session taskStatus:taskStatus selector:selector selectorPost:selectorPost errorCode:errorCode delegate:delegate];
 }
 
 - (void)upload:(NSString *)fileName serverUrl:(NSString *)serverUrl assetLocalIdentifier:(NSString *)assetLocalIdentifier session:(NSString *)session taskStatus:(NSInteger)taskStatus selector:(NSString *)selector selectorPost:(NSString *)selectorPost errorCode:(NSInteger)errorCode delegate:(id)delegate
@@ -962,7 +978,7 @@
             
         [[NCManageDatabase sharedInstance] setMetadataSession:nil sessionError:@"" sessionSelector:nil sessionSelectorPost:nil sessionTaskIdentifier:k_taskIdentifierNULL predicate:[NSPredicate predicateWithFormat:@"sessionID = %@ AND account = %@", metadata.sessionID, _activeAccount]];
             
-        [self uploadURLSession:metadata.fileName serverUrl:serverUrl sessionID:metadata.sessionID session:metadata.session taskStatus:taskStatus assetLocalIdentifier:nil selector:metadata.sessionSelector];
+        [self uploadURLSession:metadata.fileName serverUrl:serverUrl sessionID:metadata.sessionID session:metadata.session taskStatus:taskStatus assetLocalIdentifier:metadata.assetLocalIdentifier selector:metadata.sessionSelector];
     }
     
     if (!reSend) {
@@ -985,7 +1001,8 @@
     NSURLSession *sessionUpload;
     NSURL *url;
     NSMutableURLRequest *request;
-        
+    PHAsset *asset;
+    
     NSString *fileNamePath = [[NSString stringWithFormat:@"%@/%@", serverUrl, fileName] encodeString:NSUTF8StringEncoding];
         
     url = [NSURL URLWithString:fileNamePath];
@@ -995,6 +1012,16 @@
     NSString *authValue = [NSString stringWithFormat: @"Basic %@",[authData base64EncodedStringWithOptions:0]];
     [request setHTTPMethod:@"PUT"];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
+    // Change date file upload with header : X-OC-Mtime (ctime assetLocalIdentifier)
+    if (assetLocalIdentifier) {
+        PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:@[assetLocalIdentifier] options:nil];
+        if (result.count) {
+            asset = result[0];
+            long dateFileCreation = [asset.creationDate timeIntervalSince1970];
+            [request setValue:[NSString stringWithFormat:@"%ld", dateFileCreation] forHTTPHeaderField:@"X-OC-Mtime"];
+        }
+    }
     
     // Rename with the SessionID
     NSString *fileNameForUpload = sessionID;

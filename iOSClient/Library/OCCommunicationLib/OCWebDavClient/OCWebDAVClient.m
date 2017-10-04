@@ -266,7 +266,7 @@ NSString const *OCWebDAVModificationDateKey	= @"modificationdate";
     [self mr_listPath:path depth:depth withUserSessionToken:token onCommunication:sharedOCCommunication success:success failure:failure];
 }
 
-- (void)search:(NSString *)path folder:(NSString *)folder fileName:(NSString *)fileName depth:(NSString *)depth dateLastModified:(NSString *)dateLastModified user:(NSString *)user onCommunication:(OCCommunication *)sharedOCCommunication withUserSessionToken:(NSString *)token success:(void(^)(NSHTTPURLResponse *, id, NSString *token))success failure:(void(^)(NSHTTPURLResponse *, id  _Nullable responseObject, NSError *, NSString *token))failure {
+- (void)search:(NSString *)path folder:(NSString *)folder fileName:(NSString *)fileName depth:(NSString *)depth dateLastModified:(NSString *)dateLastModified user:(NSString *)user userID:(NSString *)userID onCommunication:(OCCommunication *)sharedOCCommunication withUserSessionToken:(NSString *)token success:(void(^)(NSHTTPURLResponse *, id, NSString *token))success failure:(void(^)(NSHTTPURLResponse *, id  _Nullable responseObject, NSError *, NSString *token))failure {
     
     NSString *body;
     
@@ -284,11 +284,11 @@ NSString const *OCWebDAVModificationDateKey	= @"modificationdate";
     
     if (dateLastModified.length > 0) {
         
-         body = [NSString stringWithFormat:@"%@</d:prop></d:select><d:from><d:scope><d:href>/files/%@%@</d:href><d:depth>infinity</d:depth></d:scope></d:from><d:where><d:like><d:prop><d:displayname/></d:prop><d:literal>%@</d:literal></d:like></d:where><d:orderby/></d:basicsearch></d:searchrequest>", body, user, folder, fileName];
+         body = [NSString stringWithFormat:@"%@</d:prop></d:select><d:from><d:scope><d:href>/files/%@%@</d:href><d:depth>infinity</d:depth></d:scope></d:from><d:where><d:like><d:prop><d:displayname/></d:prop><d:literal>%@</d:literal></d:like></d:where><d:orderby/></d:basicsearch></d:searchrequest>", body, userID, folder, fileName];
         
     } else {
         
-         body = [NSString stringWithFormat:@"%@</d:prop></d:select><d:from><d:scope><d:href>/files/%@%@</d:href><d:depth>infinity</d:depth></d:scope></d:from><d:where><d:like><d:prop><d:displayname/></d:prop><d:literal>%@</d:literal></d:like></d:where><d:orderby/></d:basicsearch></d:searchrequest>", body, user, folder, fileName];
+         body = [NSString stringWithFormat:@"%@</d:prop></d:select><d:from><d:scope><d:href>/files/%@%@</d:href><d:depth>infinity</d:depth></d:scope></d:from><d:where><d:like><d:prop><d:displayname/></d:prop><d:literal>%@</d:literal></d:like></d:where><d:orderby/></d:basicsearch></d:searchrequest>", body, userID, folder, fileName];
     }
     
     [request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
@@ -318,7 +318,7 @@ NSString const *OCWebDAVModificationDateKey	= @"modificationdate";
     [operation resume];
 }
 
-- (void)listingFavorites:(NSString *)path folder:(NSString *)folder user:(NSString *)user onCommunication:(OCCommunication *)sharedOCCommunication withUserSessionToken:(NSString *)token success:(void(^)(NSHTTPURLResponse *, id, NSString *token))success failure:(void(^)(NSHTTPURLResponse *, id  _Nullable responseObject, NSError *, NSString *token))failure {
+- (void)listingFavorites:(NSString *)path folder:(NSString *)folder user:(NSString *)user userID:(NSString *)userID onCommunication:(OCCommunication *)sharedOCCommunication withUserSessionToken:(NSString *)token success:(void(^)(NSHTTPURLResponse *, id, NSString *token))success failure:(void(^)(NSHTTPURLResponse *, id  _Nullable responseObject, NSError *, NSString *token))failure {
     
     NSString *body;
     
@@ -328,7 +328,7 @@ NSString const *OCWebDAVModificationDateKey	= @"modificationdate";
     
     //REPORT remote.php/dav/files/user/path/to/folder
 
-    path = [NSString stringWithFormat:@"%@/files/%@%@", path, user, folder];
+    path = [NSString stringWithFormat:@"%@/files/%@%@", path, userID, folder];
     
     NSMutableURLRequest *request = [self requestWithMethod:_requestMethod path:path parameters:nil];
     

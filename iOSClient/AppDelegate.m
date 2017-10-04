@@ -140,7 +140,7 @@
 
         } else {
         
-            [self settingActiveAccount:account.account activeUrl:account.url activeUser:account.user activePassword:account.password];
+            [self settingActiveAccount:account.account activeUrl:account.url activeUser:account.user activeUserID:account.userID activePassword:account.password];
         }
     }
     
@@ -347,45 +347,47 @@
 
 - (void)openLoginView:(id)delegate loginType:(enumLoginType)loginType
 {
-    if ([NCBrandOptions sharedInstance].use_login_web) {
-        
-        if (!_activeLoginWeb.isViewLoaded || !_activeLoginWeb.view.window) {
-        
-            _activeLoginWeb = [CCLoginWeb new];
-            _activeLoginWeb.delegate = delegate;
-            _activeLoginWeb.loginType = loginType;
-        
-            dispatch_async(dispatch_get_main_queue(), ^ {
-                [_activeLoginWeb presentModalWithDefaultTheme:delegate];
-            });
-        }
-        
-    } else {
-        
-        if (!_activeLogin.isViewLoaded || !_activeLogin.view.window) {
+    @synchronized (self) {
 
-            _activeLogin = [[UIStoryboard storyboardWithName:@"CCLogin" bundle:nil] instantiateViewControllerWithIdentifier:@"CCLoginNextcloud"];
-            _activeLogin.delegate = delegate;
-            _activeLogin.loginType = loginType;
+        if ([NCBrandOptions sharedInstance].use_login_web) {
         
-            dispatch_async(dispatch_get_main_queue(), ^ {
-                [self.window makeKeyAndVisible];
-                [self.window.rootViewController presentViewController:_activeLogin animated:YES completion:nil];
-            });
+            if (!_activeLoginWeb.view.window) {
+        
+                _activeLoginWeb = [CCLoginWeb new];
+                _activeLoginWeb.delegate = delegate;
+                _activeLoginWeb.loginType = loginType;
+        
+                dispatch_async(dispatch_get_main_queue(), ^ {
+                    [_activeLoginWeb presentModalWithDefaultTheme:delegate];
+                });
+            }
+        
+        } else {
+        
+            if (_activeLogin == nil) {
+
+                _activeLogin = [[UIStoryboard storyboardWithName:@"CCLogin" bundle:nil] instantiateViewControllerWithIdentifier:@"CCLoginNextcloud"];
+                _activeLogin.delegate = delegate;
+                _activeLogin.loginType = loginType;
+        
+                dispatch_async(dispatch_get_main_queue(), ^ {
+                    [delegate presentViewController:_activeLogin animated:YES completion:nil];
+                });
+            }
         }
     }
 }
-
 
 #pragma --------------------------------------------------------------------------------------------
 #pragma mark ===== Setting Active Account for all APP =====
 #pragma --------------------------------------------------------------------------------------------
 
-- (void)settingActiveAccount:(NSString *)activeAccount activeUrl:(NSString *)activeUrl activeUser:(NSString *)activeUser activePassword:(NSString *)activePassword
+- (void)settingActiveAccount:(NSString *)activeAccount activeUrl:(NSString *)activeUrl activeUser:(NSString *)activeUser activeUserID:(NSString *)activeUserID activePassword:(NSString *)activePassword
 {
     self.activeAccount = activeAccount;
     self.activeUrl = activeUrl;
     self.activeUser = activeUser;
+    self.activeUserID = activeUserID;
     self.activePassword = activePassword;
     
     self.directoryUser = [CCUtility getDirectoryActiveUser:activeUser activeUrl:activeUrl];
@@ -1266,7 +1268,7 @@
 {
     id operation;
     
-    operation = [[OCnetworking alloc] initWithDelegate:delegate metadataNet:metadataNet withUser:_activeUser withPassword:_activePassword withUrl:_activeUrl];
+    operation = [[OCnetworking alloc] initWithDelegate:delegate metadataNet:metadataNet withUser:_activeUser withUserID:_activeUserID withPassword:_activePassword withUrl:_activeUrl];
         
     [operation setQueuePriority:metadataNet.priority];
     

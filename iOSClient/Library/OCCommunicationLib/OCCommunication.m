@@ -176,9 +176,10 @@
 
 #pragma mark - Setting Credentials
 
-- (void) setCredentialsWithUser:(NSString*) user andPassword:(NSString*) password  {
+- (void) setCredentialsWithUser:(NSString*) user andUserID:(NSString *) userID andPassword:(NSString*) password  {
     self.kindOfCredential = credentialNormal;
     self.user = user;
+    self.userID = userID;
     self.password = password;
 }
 
@@ -634,7 +635,7 @@
     OCWebDAVClient *request = [OCWebDAVClient new];
     request = [self getRequestWithCredentials:request];
     
-    [request search:path folder:folder fileName:fileName depth:depth dateLastModified:dateLastModified user:_user onCommunication:sharedOCCommunication withUserSessionToken:token success:^(NSHTTPURLResponse *response, id responseObject, NSString *token) {
+    [request search:path folder:folder fileName:fileName depth:depth dateLastModified:dateLastModified user:_user userID:_userID onCommunication:sharedOCCommunication withUserSessionToken:token success:^(NSHTTPURLResponse *response, id responseObject, NSString *token) {
         
         if (successRequest) {
             
@@ -663,7 +664,7 @@
         token = @"no token";
     }
     
-    path = [NSString stringWithFormat:@"%@/files/%@/%@", path, _user, filePath];
+    path = [NSString stringWithFormat:@"%@/files/%@/%@", path, _userID, filePath];
     path = [path encodeString:NSUTF8StringEncoding];
     
     OCWebDAVClient *request = [OCWebDAVClient new];
@@ -697,7 +698,7 @@
     OCWebDAVClient *request = [OCWebDAVClient new];
     request = [self getRequestWithCredentials:request];
     
-    [request listingFavorites:path folder:folder user:_user onCommunication:sharedOCCommunication withUserSessionToken:token success:^(NSHTTPURLResponse *response, id responseObject, NSString *token) {
+    [request listingFavorites:path folder:folder user:_user userID:_userID onCommunication:sharedOCCommunication withUserSessionToken:token success:^(NSHTTPURLResponse *response, id responseObject, NSString *token) {
         
         if (successRequest) {
             

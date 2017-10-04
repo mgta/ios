@@ -34,6 +34,7 @@
 @interface OCnetworking ()
 {
     NSString *_activeUser;
+    NSString *_activeUserID;
     NSString *_activePassword;
     NSString *_activeUrl;
     
@@ -44,7 +45,7 @@
 
 @implementation OCnetworking
 
-- (id)initWithDelegate:(id <OCNetworkingDelegate>)delegate metadataNet:(CCMetadataNet *)metadataNet withUser:(NSString *)withUser withPassword:(NSString *)withPassword withUrl:(NSString *)withUrl
+- (id)initWithDelegate:(id <OCNetworkingDelegate>)delegate metadataNet:(CCMetadataNet *)metadataNet withUser:(NSString *)withUser withUserID:(NSString *)withUserID withPassword:(NSString *)withPassword withUrl:(NSString *)withUrl
 {
     self = [super init];
     
@@ -56,6 +57,7 @@
         _metadataNet = [metadataNet copy];
         
         _activeUser = withUser;
+        _activeUserID = withUserID;
         _activePassword = withPassword;
         _activeUrl = withUrl;        
     }
@@ -163,7 +165,7 @@
         return;
     }
 
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication getRemoteThumbnailByServer:[_activeUrl stringByAppendingString:@"/"] ofFilePath:_metadataNet.fileName withWidth:width andHeight:height onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSData *thumbnail, NSString *redirectedServer) {
@@ -202,12 +204,6 @@
                 [self.delegate downloadThumbnailFailure:_metadataNet message:[CCError manageErrorOC:response.statusCode error:error] errorCode:errorCode];
         }
         
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
-        
         [self complete];
     }];
 }
@@ -220,7 +216,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication readFolder:_metadataNet.serverUrl depth:_metadataNet.depth withUserSessionToken:nil onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSArray *items, NSString *redirectedServer, NSString *token) {
@@ -350,12 +346,6 @@
                 [self.delegate readFolderFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
         
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
-        
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
             [[CCCertificate sharedManager] presentViewControllerCertificateWithTitle:[error localizedDescription] viewController:(UIViewController *)self.delegate delegate:self];
@@ -375,7 +365,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     NSString *path = [_activeUrl stringByAppendingString:dav];
@@ -472,12 +462,6 @@
             else
                 [self.delegate searchFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -495,7 +479,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     NSString *path = [_activeUrl stringByAppendingString:dav];
@@ -521,12 +505,6 @@
             else
                 [self.delegate settingFavoriteFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -544,7 +522,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     NSString *path = [_activeUrl stringByAppendingString:dav];
@@ -640,12 +618,6 @@
             else
                 [self.delegate listingFavoritesFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -667,7 +639,7 @@
     NSString *autoUploadFileName = [[NCManageDatabase sharedInstance] getAccountAutoUploadFileName];
     NSString *autoUploadDirectory = [[NCManageDatabase sharedInstance] getAccountAutoUploadDirectory:_activeUrl];
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication createFolder:nameFolderURL onCommunication:communication withForbiddenCharactersSupported:YES successRequest:^(NSHTTPURLResponse *response, NSString *redirectedServer) {
@@ -698,12 +670,6 @@
         if ([self.delegate respondsToSelector:@selector(createFolderFailure:message:errorCode:)])
             [self.delegate createFolderFailure:_metadataNet message:message errorCode:errorCode];
         
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
-
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
             [[CCCertificate sharedManager] presentViewControllerCertificateWithTitle:[error localizedDescription] viewController:(UIViewController *)self.delegate delegate:self];
@@ -744,7 +710,7 @@
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication readFile:folderPathName onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSArray *items, NSString *redirectedServer) {
@@ -788,7 +754,7 @@
     
     NSString *serverFileUrl = [NSString stringWithFormat:@"%@/%@", _metadataNet.serverUrl, _metadataNet.fileName];
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication deleteFileOrFolder:serverFileUrl onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSString *redirectedServer) {
@@ -813,12 +779,6 @@
                 [self.delegate deleteFileOrFolderFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
         
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
-
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
             [[CCCertificate sharedManager] presentViewControllerCertificateWithTitle:[error localizedDescription] viewController:(UIViewController *)self.delegate delegate:self];
@@ -838,7 +798,7 @@
     NSString *origineURL = [NSString stringWithFormat:@"%@/%@", _metadataNet.serverUrl, _metadataNet.fileName];
     NSString *destinazioneURL = [NSString stringWithFormat:@"%@/%@", _metadataNet.serverUrlTo, _metadataNet.fileNameTo];
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication moveFileOrFolder:origineURL toDestiny:destinazioneURL onCommunication:communication withForbiddenCharactersSupported:YES successRequest:^(NSHTTPURLResponse *response, NSString *redirectedServer) {
@@ -859,12 +819,6 @@
         
         if ([self.delegate respondsToSelector:@selector(renameMoveFileOrFolderFailure:message:errorCode:)])
             [self.delegate renameMoveFileOrFolderFailure:_metadataNet message:[CCError manageErrorOC:response.statusCode error:error] errorCode:errorCode];
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -914,7 +868,7 @@
     else
         fileName = _metadataNet.serverUrl;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication readFile:fileName onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSArray *items, NSString *redirectedServer) {
@@ -977,12 +931,6 @@
             else
                 [self.delegate readFileFailure:_metadataNet message:[CCError manageErrorOC:response.statusCode error:error] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -999,7 +947,7 @@
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication readFile:filePathName onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSArray *items, NSString *redirectedServer) {
@@ -1032,7 +980,7 @@
 #ifndef EXTENSION
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication readSharedByServer:[_activeUrl stringByAppendingString:@"/"] onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSArray *items, NSString *redirectedServer) {
@@ -1075,10 +1023,6 @@
                 [self.delegate shareFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
         
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
             [[CCCertificate sharedManager] presentViewControllerCertificateWithTitle:[error localizedDescription] viewController:(UIViewController *)self.delegate delegate:self];
@@ -1092,7 +1036,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
         
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication shareFileOrFolderByServer:[_activeUrl stringByAppendingString:@"/"] andFileOrFolderPath:[_metadataNet.fileName encodeString:NSUTF8StringEncoding] andPassword:[_metadataNet.password encodeString:NSUTF8StringEncoding] onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSString *token, NSString *redirectedServer) {
@@ -1113,12 +1057,6 @@
             else
                 [self.delegate shareFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -1134,7 +1072,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication shareWith:_metadataNet.share shareeType:_metadataNet.shareeType inServer:[_activeUrl stringByAppendingString:@"/"] andFileOrFolderPath:[_metadataNet.fileName encodeString:NSUTF8StringEncoding] andPermissions:_metadataNet.sharePermission onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSString *redirectedServer) {
@@ -1155,12 +1093,6 @@
             else
                 [self.delegate shareFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -1174,7 +1106,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication updateShare:[_metadataNet.share intValue] ofServerPath:[_activeUrl stringByAppendingString:@"/"] withPasswordProtect:[_metadataNet.password encodeString:NSUTF8StringEncoding] andExpirationTime:_metadataNet.expirationTime andPermissions:_metadataNet.sharePermission onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSString *redirectedServer) {
@@ -1199,12 +1131,6 @@
             else
                 [self.delegate shareFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -1218,7 +1144,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication unShareFileOrFolderByServer:[_activeUrl stringByAppendingString:@"/"] andIdRemoteShared:[_metadataNet.share intValue] onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSString *redirectedServer) {
@@ -1247,12 +1173,6 @@
                 [self.delegate shareFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
         
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
-
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
             [[CCCertificate sharedManager] presentViewControllerCertificateWithTitle:[error localizedDescription] viewController:(UIViewController *)self.delegate delegate:self];
@@ -1265,7 +1185,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication searchUsersAndGroupsWith:_metadataNet.options forPage:1 with:50 ofServer:[_activeUrl stringByAppendingString:@"/"] onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSArray *itemList, NSString *redirectedServer) {
@@ -1290,12 +1210,6 @@
                 [self.delegate getUserAndGroupFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
         
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
-
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
             [[CCCertificate sharedManager] presentViewControllerCertificateWithTitle:[error localizedDescription] viewController:(UIViewController *)self.delegate delegate:self];
@@ -1310,7 +1224,7 @@
 
     NSString *fileName = [NSString stringWithFormat:@"%@/%@", _metadataNet.serverUrl, _metadataNet.fileName];
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication getSharePermissionsFile:fileName onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSString *permissions, NSString *redirectedServer) {
@@ -1335,12 +1249,6 @@
                 [self.delegate getSharePermissionsFileFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
         
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
-        
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
             [[CCCertificate sharedManager] presentViewControllerCertificateWithTitle:[error localizedDescription] viewController:(UIViewController *)self.delegate delegate:self];
@@ -1357,7 +1265,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication getActivityServer:[_activeUrl stringByAppendingString:@"/"] onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSArray *listOfActivity, NSString *redirectedServer) {
@@ -1381,12 +1289,6 @@
             else
                 [self.delegate getActivityServerFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -1404,7 +1306,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication getExternalSitesServer:[_activeUrl stringByAppendingString:@"/"] onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSArray *listOfExternalSites, NSString *redirectedServer) {
@@ -1428,12 +1330,6 @@
             else
                 [self.delegate getExternalSitesServerFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -1492,7 +1388,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication getNotificationServer:[_activeUrl stringByAppendingString:@"/"] onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSArray *listOfNotifications, NSString *redirectedServer) {
@@ -1516,12 +1412,6 @@
             else
                 [self.delegate getNotificationServerFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -1538,7 +1428,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     NSString *type = _metadataNet.options;
@@ -1564,12 +1454,6 @@
             else
                 [self.delegate setNotificationServerFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -1649,12 +1533,6 @@
                 [self.delegate subscribingNextcloudServerFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
 
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
-
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
             [[CCCertificate sharedManager] presentViewControllerCertificateWithTitle:[error localizedDescription] viewController:(UIViewController *)self.delegate delegate:self];
@@ -1674,7 +1552,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication getUserProfileServer:[_activeUrl stringByAppendingString:@"/"] onCommunication:communication successRequest:^(NSHTTPURLResponse *response, OCUserProfile *userProfile, NSString *redirectedServer) {
@@ -1698,12 +1576,6 @@
             else
                 [self.delegate getUserProfileFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)
@@ -1725,7 +1597,7 @@
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication checkServer:serverUrl onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSString *redirectedServer) {
@@ -1757,7 +1629,7 @@
 {
     OCCommunication *communication = [CCNetworking sharedNetworking].sharedOCCommunication;
     
-    [communication setCredentialsWithUser:_activeUser andPassword:_activePassword];
+    [communication setCredentialsWithUser:_activeUser andUserID:_activeUserID andPassword:_activePassword];
     [communication setUserAgent:[CCUtility getUserAgent]];
     
     [communication getCapabilitiesOfServer:[_activeUrl stringByAppendingString:@"/"] onCommunication:communication successRequest:^(NSHTTPURLResponse *response, OCCapabilities *capabilities, NSString *redirectedServer) {
@@ -1783,12 +1655,6 @@
             else
                 [self.delegate getCapabilitiesOfServerFailure:_metadataNet message:[error.userInfo valueForKey:@"NSLocalizedDescription"] errorCode:errorCode];
         }
-        
-#ifndef EXTENSION
-        // Unauthorized
-        if (errorCode == kOCErrorServerUnauthorized)
-            [app openLoginView:self loginType:loginModifyPasswordUser];
-#endif
 
         // Request trusted certificated
         if ([error code] == NSURLErrorServerCertificateUntrusted)

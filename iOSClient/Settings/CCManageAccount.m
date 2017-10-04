@@ -152,6 +152,7 @@
     [super viewWillAppear:animated];
  
     self.tableView.backgroundColor = [NCBrandColor sharedInstance].tableBackground;
+    self.tableView.showsVerticalScrollIndicator = NO;
 
     // Color
     [app aspectNavigationControllerBar:self.navigationController.navigationBar online:[app.reachability isReachable] hidden:NO];
@@ -189,6 +190,11 @@
 {
     if (loginType == loginAddForced)
         [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:@"initializeMain" object:nil];
+}
+
+- (void)loginDisappear
+{
+    app.activeLogin = nil;
 }
 
 #pragma --------------------------------------------------------------------------------------------
@@ -267,7 +273,7 @@
     [[NCManageDatabase sharedInstance] clearTable:[tableShare class] account:account];
     
     // Clear active user
-    [app settingActiveAccount:nil activeUrl:nil activeUser:nil activePassword:nil];
+    [app settingActiveAccount:nil activeUrl:nil activeUser:nil activeUserID:nil activePassword:nil];
 }
 
 - (void)answerDelAccount:(XLFormRowDescriptor *)sender
@@ -306,7 +312,7 @@
     // change account
     tableAccount *tableAccount = [[NCManageDatabase sharedInstance] setAccountActive:account];
     if (tableAccount)
-        [app settingActiveAccount:tableAccount.account activeUrl:tableAccount.url activeUser:tableAccount.user activePassword:tableAccount.password];
+        [app settingActiveAccount:tableAccount.account activeUrl:tableAccount.url activeUser:tableAccount.user activeUserID:tableAccount.userID activePassword:tableAccount.password];
  
     // Init home
     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:@"initializeMain" object:nil];

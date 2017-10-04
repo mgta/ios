@@ -54,6 +54,10 @@ class CCMore: UIViewController, UITableViewDelegate, UITableViewDataSource, CCLo
         
         tableView.separatorColor = NCBrandColor.sharedInstance.seperator
         
+        if #available(iOS 11.0, *) {
+            //tableView.contentInsetAdjustmentBehavior = .never
+        }
+        
         themingBackground.image = UIImage.init(named: "themingBackground")
         
         // create tap gesture recognizer
@@ -381,12 +385,16 @@ class CCMore: UIViewController, UITableViewDelegate, UITableViewDataSource, CCLo
         
         self.navigationController?.pushViewController(controller, animated: true)
     }
-
+    
     func loginSuccess(_ loginType: NSInteger) {
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "initializeMain"), object: nil)
         
         appDelegate.selectedTabBarController(Int(k_tabBarApplicationIndexFile))
+    }
+    
+    func loginDisappear() {
+        
     }
 }
 

@@ -241,7 +241,6 @@
 		F75EDFB11E8C106900E6F369 /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F75EDFAB1E8C106900E6F369 /* Protobuf.framework */; };
 		F75EDFBD1E8C112F00E6F369 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F75EDFBC1E8C112F00E6F369 /* libsqlite3.0.tbd */; };
 		F75EDFBF1E8C116D00E6F369 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F75EDFBE1E8C116D00E6F369 /* libstdc++.tbd */; };
-		F762CAF61EACB66200B38484 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F762CAA01EACB66200B38484 /* Info.plist */; };
 		F762CAF71EACB66200B38484 /* XLFormBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F762CAA41EACB66200B38484 /* XLFormBaseCell.m */; };
 		F762CAF81EACB66200B38484 /* XLFormButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F762CAA61EACB66200B38484 /* XLFormButtonCell.m */; };
 		F762CAF91EACB66200B38484 /* XLFormCheckCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F762CAA81EACB66200B38484 /* XLFormCheckCell.m */; };
@@ -727,7 +726,6 @@
 		F700229E1EC4C9100080073F /* OCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCConstants.h; sourceTree = "<group>"; };
 		F700229F1EC4C9100080073F /* UtilsFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilsFramework.h; sourceTree = "<group>"; };
 		F70022A01EC4C9100080073F /* UtilsFramework.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilsFramework.m; sourceTree = "<group>"; };
-		F70211F41BAC56E9003FC03E /* CCCellMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCellMain.h; sourceTree = "<group>"; };
 		F70211F51BAC56E9003FC03E /* CCCellMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCellMain.m; sourceTree = "<group>"; };
 		F70211F61BAC56E9003FC03E /* CCCellMain.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CCCellMain.xib; sourceTree = "<group>"; };
 		F70211F71BAC56E9003FC03E /* CCCellMainTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCellMainTransfer.h; sourceTree = "<group>"; };
@@ -1001,7 +999,6 @@
 		F75EDFAB1E8C106900E6F369 /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Protobuf.framework; sourceTree = "<group>"; };
 		F75EDFBC1E8C112F00E6F369 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		F75EDFBE1E8C116D00E6F369 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
-		F762CAA01EACB66200B38484 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F762CAA31EACB66200B38484 /* XLFormBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLFormBaseCell.h; sourceTree = "<group>"; };
 		F762CAA41EACB66200B38484 /* XLFormBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLFormBaseCell.m; sourceTree = "<group>"; };
 		F762CAA51EACB66200B38484 /* XLFormButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLFormButtonCell.h; sourceTree = "<group>"; };
@@ -1508,6 +1505,8 @@
 		F7FCFFDE1D707B83000E6E29 /* CCPeekPop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCPeekPop.m; sourceTree = "<group>"; };
 		F7FE125C1BAC03FB0041924B /* CCBKPasscode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBKPasscode.h; sourceTree = "<group>"; };
 		F7FE125D1BAC03FB0041924B /* CCBKPasscode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBKPasscode.m; sourceTree = "<group>"; };
+		F7FFEACD1F82BB1C005E5C17 /* CCCellMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CCCellMain.h; path = Main/CCCellMain.h; sourceTree = "<group>"; };
+		F7FFEACE1F82BB23005E5C17 /* CCCellMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCellMain.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1680,9 +1679,9 @@
 		F70211F31BAC56E9003FC03E /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				F7FFEACE1F82BB23005E5C17 /* CCCellMain.h */,
 				F70211F51BAC56E9003FC03E /* CCCellMain.m */,
 				F70211F61BAC56E9003FC03E /* CCCellMain.xib */,
-				F70211F41BAC56E9003FC03E /* CCCellMain.h */,
 				F70211F71BAC56E9003FC03E /* CCCellMainTransfer.h */,
 				F70211F81BAC56E9003FC03E /* CCCellMainTransfer.m */,
 				F70211F91BAC56E9003FC03E /* CCCellMainTransfer.xib */,
@@ -2119,7 +2118,6 @@
 		F762CA9F1EACB66200B38484 /* XLForm */ = {
 			isa = PBXGroup;
 			children = (
-				F762CAA01EACB66200B38484 /* Info.plist */,
 				F762CAA11EACB66200B38484 /* XL */,
 				F762CAF51EACB66200B38484 /* XLForm.bundle */,
 			);
@@ -2899,6 +2897,7 @@
 				F70022561EC4C9100080073F /* OCCommunicationLib */,
 				F7A582D71A24DAB500E903D7 /* AppDelegate.h */,
 				F7A582D61A24DAB500E903D7 /* AppDelegate.m */,
+				F7FFEACD1F82BB1C005E5C17 /* CCCellMain.h */,
 				F7C8C1901B482CEA0048180E /* CCGlobal.h */,
 				F7C8C1911B482CEA0048180E /* CCGlobal.m */,
 				F73CB5771ED46807005F2A5A /* NCBridgeSwift.h */,
@@ -3311,7 +3310,6 @@
 				F77B0F671D118A16002130FE /* InfoPlist.strings in Resources */,
 				F7C525A21E3B6DA800FFE02C /* CCNotification.storyboard in Resources */,
 				F7F54CEB1E5B14C700E19C62 /* ImageSelectedOn.png in Resources */,
-				F762CAF61EACB66200B38484 /* Info.plist in Resources */,
 				F762CB951EACB84400B38484 /* icon-error.png in Resources */,
 				F7F54CF01E5B14C700E19C62 /* ImageSelectedSmallOff@3x.png in Resources */,
 				F73B4EF01F470D9100BBEE4B /* CMakeLists.txt in Resources */,

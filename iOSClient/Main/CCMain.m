@@ -198,7 +198,7 @@
     
     if (@available(iOS 11, *)) {
         self.navigationItem.searchController = self.searchController;
-        self.navigationItem.hidesSearchBarWhenScrolling = false;
+        self.navigationItem.hidesSearchBarWhenScrolling = true;
         self.navigationItem.searchController.searchBar.tintColor = [UIColor whiteColor];
         
         UITextField *textField = [self.searchController.searchBar valueForKey:@"searchField"];
@@ -603,6 +603,18 @@
     }
 }
 
+/*
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    UIBarStyle barStyle = self.navigationController.navigationBar.barStyle;
+    
+    if (barStyle == UIStatusBarStyleLightContent)
+        return UIStatusBarStyleDefault;
+    else
+        return UIStatusBarStyleLightContent;
+}
+*/
+
 - (void)setUINavigationBarDefault
 {
     [app aspectNavigationControllerBar:self.navigationController.navigationBar online:[app.reachability isReachable] hidden:NO];
@@ -922,38 +934,18 @@
 }
 
 #pragma --------------------------------------------------------------------------------------------
-#pragma mark ===== Change Password =====
+#pragma mark === Delegate Login ===
 #pragma --------------------------------------------------------------------------------------------
 
-- (void) loginSuccess:(NSInteger)loginType
+- (void)loginSuccess:(NSInteger)loginType
 {
     [self readFolder:_serverUrl];
 }
 
-/*
-- (void)changePasswordAccount
+- (void)loginDisappear
 {
-    // Brand
-    if ([NCBrandOptions sharedInstance].use_login_web) {
-    
-        _loginWeb = [CCLoginWeb new];
-        _loginWeb.delegate = self;
-        _loginWeb.loginType = loginModifyPasswordUser;
-    
-        dispatch_async(dispatch_get_main_queue(), ^ {
-            [_loginWeb presentModalWithDefaultTheme:self];
-        });
-        
-    } else {
-        
-        _loginVC = [[UIStoryboard storyboardWithName:@"CCLogin" bundle:nil] instantiateViewControllerWithIdentifier:@"CCLoginNextcloud"];
-        _loginVC.delegate = self;
-        _loginVC.loginType = loginModifyPasswordUser;
-    
-        [self presentViewController:_loginVC animated:YES completion:nil];
-    }
+    app.activeLogin = nil;
 }
-*/
 
 #pragma mark -
 #pragma --------------------------------------------------------------------------------------------
@@ -1118,7 +1110,7 @@
     tableAccount *account = [[NCManageDatabase sharedInstance] getAccountActive];
     
     // Setting App active account
-    [app settingActiveAccount:account.account activeUrl:account.url activeUser:account.user activePassword:account.password];
+    [app settingActiveAccount:account.account activeUrl:account.url activeUser:account.user activeUserID:account.userID activePassword:account.password];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
@@ -1141,6 +1133,10 @@
 
 - (void)getCapabilitiesOfServerFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
+    // Unauthorized
+    if (errorCode == kOCErrorServerUnauthorized)
+        [app openLoginView:self loginType:loginModifyPasswordUser];
+
     NSString *error = [NSString stringWithFormat:@"Get Capabilities failure error %lu, %@", (long)errorCode, message];
     NSLog(@"[LOG] %@", error);
     
@@ -1254,6 +1250,11 @@
 #pragma --------------------------------------------------------------------------------------------
 #pragma mark ==== Download Thumbnail Delegate ====
 #pragma --------------------------------------------------------------------------------------------
+
+- (void)downloadThumbnailFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
+{
+    NSLog(@"[LOG] Download Thumbnail Failure error %lu, %@", (long)errorCode, message);
+}
 
 - (void)downloadThumbnailSuccess:(CCMetadataNet *)metadataNet
 {
@@ -1664,10 +1665,9 @@
 
 - (void)readFileFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
-    // Read Folder
-    if ([metadataNet.selector isEqualToString:selectorReadFileReloadFolder]) {
-        //[self readFolderWithForced:NO serverUrl:metadataNet.serverUrl];
-    }
+    // Unauthorized
+    if (errorCode == kOCErrorServerUnauthorized)
+        [app openLoginView:self loginType:loginModifyPasswordUser];
     
     // UploadFile
     if ([metadataNet.selector isEqualToString:selectorReadFileUploadFile]) {
@@ -1744,8 +1744,9 @@
 
 - (void)readFolderFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
-    // verify active user
-    tableAccount *record = [[NCManageDatabase sharedInstance] getAccountActive];
+    // Unauthorized
+    if (errorCode == kOCErrorServerUnauthorized)
+        [app openLoginView:self loginType:loginModifyPasswordUser];
     
     _loadingFolder = NO;
     [self tableViewReloadData];
@@ -1754,6 +1755,8 @@
         
     [_ImageTitleHomeCryptoCloud setUserInteractionEnabled:YES];
     
+    // verify active user
+    tableAccount *record = [[NCManageDatabase sharedInstance] getAccountActive];
     if (message && [record.account isEqualToString:metadataNet.account])
         [app messageNotification:@"_error_" description:message visible:YES delay:k_dismissAfterSecond type:TWMessageBarMessageTypeError errorCode:errorCode];
     
@@ -1906,10 +1909,7 @@
 
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    //UIView *statusBar=[[UIApplication sharedApplication] valueForKey:@"statusBar"];
-    //statusBar.backgroundColor = [UIColor whiteColor];
-    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    //[self setNeedsStatusBarAppearanceUpdate];
 
     _isSearchMode = YES;
     [self deleteRefreshControl];
@@ -1964,6 +1964,10 @@
 
 - (void)searchFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
+    // Unauthorized
+    if (errorCode == kOCErrorServerUnauthorized)
+        [app openLoginView:self loginType:loginModifyPasswordUser];
+    
     if (message && errorCode != kOCErrorServerUnauthorized)
         [app messageNotification:@"_error_" description:message visible:YES delay:k_dismissAfterSecond type:TWMessageBarMessageTypeError errorCode:errorCode];
     
@@ -1992,7 +1996,7 @@
         [self reloadDatasource];
     }
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    //[self setNeedsStatusBarAppearanceUpdate];
 }
 
 #pragma mark -
@@ -2002,6 +2006,10 @@
 
 - (void)deleteFileOrFolderFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
+    // Unauthorized
+    if (errorCode == kOCErrorServerUnauthorized)
+        [app openLoginView:self loginType:loginModifyPasswordUser];
+
     NSLog(@"[LOG] Delete File failure error %lu, %@", (long)errorCode, message);
 
     [self deleteFileOrFolderSuccess:metadataNet];
@@ -2171,7 +2179,7 @@
     NSString *directoryIDTo = [[NCManageDatabase sharedInstance] getDirectoryID:serverUrlTo];
     if (!directoryIDTo) return;
     
-    OCnetworking *ocNetworking = [[OCnetworking alloc] initWithDelegate:nil metadataNet:nil withUser:app.activeUser withPassword:app.activePassword withUrl:app.activeUrl];
+    OCnetworking *ocNetworking = [[OCnetworking alloc] initWithDelegate:nil metadataNet:nil withUser:app.activeUser withUserID:app.activeUserID withPassword:app.activePassword withUrl:app.activeUrl];
             
     NSError *error = [ocNetworking readFileSync:[NSString stringWithFormat:@"%@/%@", serverUrlTo, metadata.fileName]];
             
@@ -2268,6 +2276,10 @@
 
 - (void)createFolderFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
+    // Unauthorized
+    if (errorCode == kOCErrorServerUnauthorized)
+        [app openLoginView:self loginType:loginModifyPasswordUser];
+
     if (message && errorCode != kOCErrorServerUnauthorized)
         [app messageNotification:@"_create_folder_" description:message visible:YES delay:k_dismissAfterSecond type:TWMessageBarMessageTypeError errorCode:errorCode];
     
@@ -2638,6 +2650,10 @@
 {
     [_hud hideHud];
 
+    // Unauthorized
+    if (errorCode == kOCErrorServerUnauthorized)
+        [app openLoginView:self loginType:loginModifyPasswordUser];
+
     if (errorCode != kOCErrorServerUnauthorized)
         [app messageNotification:@"_share_" description:message visible:YES delay:k_dismissAfterSecond type:TWMessageBarMessageTypeError errorCode:errorCode];
 
@@ -2729,6 +2745,10 @@
 {
     [_hud hideHud];
     
+    // Unauthorized
+    if (errorCode == kOCErrorServerUnauthorized)
+        [app openLoginView:self loginType:loginModifyPasswordUser];
+
     if (errorCode != kOCErrorServerUnauthorized)
         [app messageNotification:@"_error_" description:message visible:YES delay:k_dismissAfterSecond type:TWMessageBarMessageTypeError errorCode:errorCode];
 }
@@ -2840,6 +2860,10 @@
 
 - (void)settingFavoriteFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode
 {
+    // Unauthorized
+    if (errorCode == kOCErrorServerUnauthorized)
+        [app openLoginView:self loginType:loginModifyPasswordUser];
+
     NSLog(@"[LOG] Setting Favorite failure error %lu, %@", (long)errorCode, message);
 }
 
@@ -3020,7 +3044,7 @@
             
         tableAccount *tableAccount = [[NCManageDatabase sharedInstance] setAccountActive:[sender argument]];
         if (tableAccount)
-            [app settingActiveAccount:tableAccount.account activeUrl:tableAccount.url activeUser:tableAccount.user activePassword:tableAccount.password];
+            [app settingActiveAccount:tableAccount.account activeUrl:tableAccount.url activeUser:tableAccount.user activeUserID:tableAccount.userID activePassword:tableAccount.password];
     
         // go to home sweet home
         [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:@"initializeMain" object:nil];
@@ -3035,18 +3059,20 @@
 
 - (void)createReMenuBackgroundView:(REMenu *)menu
 {
-    __block CGFloat navigationBarH = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    UILayoutGuide *layoutGuide;
+    if (@available(iOS 11, *)) {
+        layoutGuide = [UIApplication sharedApplication].delegate.window.safeAreaLayoutGuide;
+    }
+    
+    CGFloat computeNavigationBarOffset = [menu computeNavigationBarOffset];
+    UIViewController *rootController = [[[[UIApplication sharedApplication]delegate] window] rootViewController];
+    _reMenuBackgroundView.frame = CGRectMake(0, computeNavigationBarOffset, rootController.view.frame.size.width,  rootController.view.frame.size.height);
 
-    _reMenuBackgroundView.frame = CGRectMake(0, navigationBarH, self.view.frame.size.width, self.view.frame.size.height);
-        
     [UIView animateWithDuration:0.2 animations:^{
-                
-        float height = (self.view.frame.size.height + navigationBarH) - (menu.menuView.frame.size.height - self.navigationController.navigationBar.frame.size.height + 3);
         
-        if (height < self.tabBarController.tabBar.frame.size.height)
-            height = self.tabBarController.tabBar.frame.size.height;
+        CGFloat y =  rootController.view.frame.size.height - menu.menuView.frame.size.height + 40;
         
-        _reMenuBackgroundView.frame = CGRectMake(0, self.view.frame.size.height + navigationBarH, self.view.frame.size.width, - height);
+        _reMenuBackgroundView.frame = CGRectMake(0, rootController.view.frame.size.height, self.view.frame.size.width,  - y);
         
         [self.tabBarController.view addSubview:_reMenuBackgroundView];
     }];
@@ -3225,7 +3251,10 @@
         [app.reMainMenu showFromNavigationController:self.navigationController];
         
         // Backgroun reMenu & (Gesture)
-        [self createReMenuBackgroundView:app.reMainMenu];
+        
+        if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+            [self createReMenuBackgroundView:app.reMainMenu];
+        
         _singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleReMainMenu)];
         [_reMenuBackgroundView addGestureRecognizer:_singleFingerTap];
     }
@@ -3347,7 +3376,9 @@
         [app.reSelectMenu showFromNavigationController:self.navigationController];
         
         // Backgroun reMenu & (Gesture)
-        [self createReMenuBackgroundView:app.reSelectMenu];
+        if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+            [self createReMenuBackgroundView:app.reSelectMenu];
+        
         _singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleReSelectMenu)];
         [_reMenuBackgroundView addGestureRecognizer:_singleFingerTap];
     }
@@ -4525,7 +4556,7 @@
     titleLabel.text = titleSection;
     titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
-    [visualEffectView addSubview:titleLabel];
+    [visualEffectView.contentView addSubview:titleLabel];
     
     // Elements
     UILabel *elementLabel= [[UILabel alloc]initWithFrame:CGRectMake(shift, -12, 0, 44)];
@@ -4542,7 +4573,7 @@
     if (rowsCount == 1) elementLabel.text = [NSString stringWithFormat:@"%lu %@", (unsigned long)rowsCount,  NSLocalizedString(@"_element_",nil)];
     if (rowsCount > 1) elementLabel.text = [NSString stringWithFormat:@"%lu %@", (unsigned long)rowsCount,  NSLocalizedString(@"_elements_",nil)];
     
-    [visualEffectView addSubview:elementLabel];
+    [visualEffectView.contentView addSubview:elementLabel];
     
     return visualEffectView;
 }
