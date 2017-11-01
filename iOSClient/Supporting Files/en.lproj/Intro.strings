@@ -30,7 +30,7 @@
 "_intro_2_text_"    = "Connect to all your clouds and touch the TheBox logo on the Files tab to switch between them";
 
 "_intro_3_title_"   = "Start";
-"_intro_3_text_"    = "Good, your TheBox is ready for use. Further information, news and contact-information to be found on https://magenta.org";
+"_intro_3_text_"    = "Good, TheBox is ready for use. Further information, news and contact-information to be found on https://magenta.org";
 
 "_introNoCryptoCloud_1_title_" = "Crypto Cloud";
 "_introNoCryptoCloud_1_text_"  = "Crypto Cloud encryption protocol is no longer available, you can still decrypt your files by downloading the free app from AppStore\n\n'CryptoCloud for TheBox'\n\nSoon there will be a new EndToEnd protocol available on all TheBox clients\n\n\nTap to Start";
