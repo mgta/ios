@@ -66,7 +66,7 @@ class NCBrandColor: NSObject {
     
     @objc public let brand:                           String = "TheBox"
     @objc public let mailMe:                          String = "info@magenta.org"
-    @objc public let textCopyrightNextcloudiOS:       String = "TheBox for iOS %@ © 2017 T.W.S. Inc."
+    @objc public let textCopyrightNextcloudiOS:       String = "TheBox for iOS %@ © 2017 MAGENTA COMPUTER AG"
     @objc public let textCopyrightNextcloudServer:    String = "TheBox Server %@"
     @objc public let loginBaseUrl:                    String = "https://cloud.twsweb.it"
     @objc public let pushNotificationServer:          String = "https://push-notifications.nextcloud.com"
