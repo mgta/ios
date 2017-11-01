@@ -1,6 +1,6 @@
 //
 //  CCMainTabBarController.swift
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 30/03/17.
 //  Copyright © 2017 TWS. All rights reserved.

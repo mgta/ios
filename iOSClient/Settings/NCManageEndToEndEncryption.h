@@ -1,6 +1,6 @@
 //
 //  NCManageEndToEndEncryption.h
-//  Nextcloud
+//  TheBox
 //
 //  Created by Marino Faggiana on 13/10/17.
 //  Copyright © 2017 TWS. All rights reserved.

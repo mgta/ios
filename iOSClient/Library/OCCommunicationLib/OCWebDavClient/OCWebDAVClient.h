@@ -531,7 +531,7 @@ extern NSString * _Nullable OCWebDAVModificationDateKey;
 - (void)setNotificationServer:(NSString * _Nonnull)serverPath type:(NSString * _Nonnull)type onCommunication:(OCCommunication * _Nonnull)sharedOCCommunication success:(void(^ _Nonnull)(NSHTTPURLResponse * _Nonnull, id _Nonnull))success failure:(void(^ _Nonnull)(NSHTTPURLResponse * _Nonnull, id  _Nullable responseObject, NSError * _Nonnull))failure;
 
 ///-----------------------------------
-/// @name Subscribing at the Nextcloud server
+/// @name Subscribing at the TheBox server
 ///-----------------------------------
 
 /**

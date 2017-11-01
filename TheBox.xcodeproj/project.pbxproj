@@ -1242,7 +1242,7 @@
 		F7CC04E91F5AD50E00378CEF /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Error.strings; sourceTree = "<group>"; };
 		F7CD0FF91C8DDA7D006520C5 /* CCSharePermissionOC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSharePermissionOC.h; sourceTree = "<group>"; };
 		F7CD0FFA1C8DDA7D006520C5 /* CCSharePermissionOC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCSharePermissionOC.m; sourceTree = "<group>"; };
-		F7CE8AFA1DC1F8D8009CAE48 /* Nextcloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nextcloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7CE8AFA1DC1F8D8009CAE48 /* TheBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7CE8AFB1DC1F8D8009CAE48 /* Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7D02A461C5F9E4400D6F972 /* CCMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMove.h; sourceTree = "<group>"; };
 		F7D02A471C5F9E4400D6F972 /* CCMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMove.m; sourceTree = "<group>"; };
@@ -2963,7 +2963,7 @@
 		F7FC7D651DC1F98700BB2C6A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F7CE8AFA1DC1F8D8009CAE48 /* Nextcloud.app */,
+				F7CE8AFA1DC1F8D8009CAE48 /* TheBox.app */,
 				F7CE8AFB1DC1F8D8009CAE48 /* Share.appex */,
 				F74344901E128E8F001CC831 /* Picker.appex */,
 				F74344911E128E96001CC831 /* PickerFileProvider.appex */,
@@ -3049,9 +3049,9 @@
 			productReference = F74344911E128E96001CC831 /* PickerFileProvider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		F77B0DEB1D118A16002130FE /* Nextcloud */ = {
+		F77B0DEB1D118A16002130FE /* TheBox */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F77B0F9A1D118A16002130FE /* Build configuration list for PBXNativeTarget "Nextcloud" */;
+			buildConfigurationList = F77B0F9A1D118A16002130FE /* Build configuration list for PBXNativeTarget "TheBox" */;
 			buildPhases = (
 				F77B0DEF1D118A16002130FE /* Sources */,
 				F77B0EDC1D118A16002130FE /* Frameworks */,
@@ -3069,9 +3069,9 @@
 				F74344281E1264EE001CC831 /* PBXTargetDependency */,
 				F743442B1E1264EE001CC831 /* PBXTargetDependency */,
 			);
-			name = Nextcloud;
+			name = TheBox;
 			productName = "Crypto Cloud";
-			productReference = F7CE8AFA1DC1F8D8009CAE48 /* Nextcloud.app */;
+			productReference = F7CE8AFA1DC1F8D8009CAE48 /* TheBox.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -3136,7 +3136,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F7F67BA31A24D27800EE80DA /* Build configuration list for PBXProject "Nextcloud" */;
+			buildConfigurationList = F7F67BA31A24D27800EE80DA /* Build configuration list for PBXProject "TheBox" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -3166,7 +3166,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F77B0DEB1D118A16002130FE /* Nextcloud */,
+				F77B0DEB1D118A16002130FE /* TheBox */,
 				F71459B41D12E3B700CAFEEC /* Share */,
 				F74344111E1264ED001CC831 /* Picker */,
 				F743441F1E1264EE001CC831 /* PickerFileProvider */,
@@ -4540,7 +4540,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F77B0F9A1D118A16002130FE /* Build configuration list for PBXNativeTarget "Nextcloud" */ = {
+		F77B0F9A1D118A16002130FE /* Build configuration list for PBXNativeTarget "TheBox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F77B0F9B1D118A16002130FE /* Debug */,
@@ -4549,7 +4549,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F7F67BA31A24D27800EE80DA /* Build configuration list for PBXProject "Nextcloud" */ = {
+		F7F67BA31A24D27800EE80DA /* Build configuration list for PBXProject "TheBox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F7F67BC91A24D27800EE80DA /* Debug */,

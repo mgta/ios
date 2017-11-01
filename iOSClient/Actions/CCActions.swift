@@ -1,6 +1,6 @@
 //
 //  CCActions.swift
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 06/02/17.
 //  Copyright (c) 2017 TWS. All rights reserved.

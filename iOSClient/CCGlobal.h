@@ -1,6 +1,6 @@
 //
 //  CCGlobal.h
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 13/10/14.
 //  Copyright (c) 2017 TWS. All rights reserved.
@@ -66,7 +66,7 @@ extern NSString *const dav;
 // Picker select image
 #define k_pickerControllerMax                           1000.0
 
-// define Nextcloud IOS
+// define TheBox IOS
 #define k_share_link_middle_part_url_after_version_8    @"index.php/s/"
 
 // Constants to identify the different permissions of a file

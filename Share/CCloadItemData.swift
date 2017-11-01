@@ -1,6 +1,6 @@
 //
 //  CCloadItemData.swift
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 19/02/16.
 //  Copyright (c) 2017 TWS. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  OCnetworking.h
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 10/05/15.
 //  Copyright (c) 2017 TWS. All rights reserved.
@@ -121,7 +121,7 @@
 - (void)listingFavoritesSuccess:(CCMetadataNet *)metadataNet metadatas:(NSArray *)metadatas;
 - (void)listingFavoritesFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode;
 
-// Subscribing Nextcloud Server
+// Subscribing TheBox Server
 - (void)subscribingNextcloudServerFailure:(CCMetadataNet *)metadataNet message:(NSString *)message errorCode:(NSInteger)errorCode;
 
 // End-to-End Encryption

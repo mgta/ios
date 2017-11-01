@@ -1,6 +1,6 @@
 //
 //  Localizable.strings
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Copyright © 2017 TWS. All rights reserved.
 //
@@ -200,7 +200,7 @@
 // Manage Help
 
 "_help_tutorial_"               = "Tutorial";
-"_help_intro_"                  = "Introduction to Nextcloud";
+"_help_intro_"                  = "Introduction to TheBox";
 "_help_activity_verbose_"       = "Detailed Activity feed";
 "_help_activity_mail_"          = "Send activity via email";
 "_help_activity_clear_"         = "Clear activity";
@@ -218,7 +218,7 @@
 
 "_connect_server_anyway_"       = "Do you want to connect to the server anyway?";
 "_connection_error_"            = "Connection error";
-"_add_your_nextcloud_"          = "Add your Nextcloud account";
+"_add_your_nextcloud_"          = "Add your TheBox account";
 "_login_url_"                   = "Server address https://…";
 "_login_bottom_label_"          = "Don't have a server yet?\nChoose one of the providers.";
 "_error_multidomain_"           = "Address not allowed, only the following domains are valid:";

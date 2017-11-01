@@ -148,7 +148,7 @@ class DocumentPickerViewController: UIDocumentPickerExtensionViewController, CCN
         
         super.viewWillAppear(animated)
     
-        // BUGFIX 2.17 - Change user Nextcloud App
+        // BUGFIX 2.17 - Change user TheBox App
         CCNetworking.shared().settingAccount()
         
         // (save) mode of presentation -> pass variable for pushViewController

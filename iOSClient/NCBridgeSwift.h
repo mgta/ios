@@ -1,6 +1,6 @@
 //
 //  NCBridgeSwift.h
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 11/05/17.
 //  Copyright © 2017 TWS. All rights reserved.
@@ -21,32 +21,32 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-// Nextcloud App
+// TheBox App
 #if !defined(EXTENSION)
 
     #if defined(CUSTOM_BUILD)
         #import "CustomSwift.h"
     #else
-        #import "Nextcloud-Swift.h"
+        #import "TheBox-Swift.h"
     #endif
 
 #endif
 
-// Nextcloud Extension Share
+// TheBox Extension Share
 #if defined(EXTENSION_SHARE)
 
     #import "Share-Swift.h"
 
 #endif
 
-// Nextcloud Extension Document Provider Picker
+// TheBox Extension Document Provider Picker
 #if defined(EXTENSION_PICKER)
 
     #import "Picker-Swift.h"
 
 #endif
 
-// Nextcloud Extension Document Provider Picker File Provider
+// TheBox Extension Document Provider Picker File Provider
 #if defined(EXTENSION_PICKER_FILE_PROVIDER)
 
 #import "PickerFileProvider-Swift.h"

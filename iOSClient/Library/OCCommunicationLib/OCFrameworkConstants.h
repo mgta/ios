@@ -56,7 +56,7 @@
 //Url to access to Remote Notification API
 #define k_url_acces_remote_notification_api @"ocs/v2.php/apps/notifications/api/v2/notifications"
 
-//Url to access to Remote Subscribing Nextcloud server API
+//Url to access to Remote Subscribing TheBox server API
 #define k_url_acces_remote_subscribing_nextcloud_server_api @"/ocs/v2.php/apps/notifications/api/v2/push"
 
 //Url to access to Remote Activity API

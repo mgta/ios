@@ -1,6 +1,6 @@
 //
 //  NCShares.m
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 05/06/17.
 //  Copyright (c) 2017 TWS. All rights reserved.

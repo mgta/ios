@@ -1,6 +1,6 @@
 //
 //  main.m
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 25/11/14.
 //  Copyright (c) 2017 TWS. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  NSString+TruncateToWidth.h
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 06/04/16.
 //  Copyright (c) 2017 TWS. All rights reserved.

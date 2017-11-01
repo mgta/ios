@@ -1,6 +1,6 @@
 //
 //  ShareViewController.m
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 26/01/16.
 //  Copyright (c) 2017 TWS. All rights reserved.
@@ -109,7 +109,7 @@
 {
     [super viewWillAppear:animated];
     
-    // BUGFIX 2.17 - Change user Nextcloud App
+    // BUGFIX 2.17 - Change user TheBox App
     [[CCNetworking sharedNetworking] settingAccount];
     
     if ([[CCUtility getBlockCode] length] > 0 && [CCUtility getOnlyLockDir] == NO)

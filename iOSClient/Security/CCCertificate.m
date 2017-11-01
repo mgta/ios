@@ -1,6 +1,6 @@
 //
 //  CCCertificate.m
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 10/08/16.
 //  Copyright (c) 2017 TWS. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  NCEntoToEndInterface.swift
-//  Nextcloud
+//  TheBox
 //
 //  Created by Marino Faggiana on 03/04/17.
 //  Copyright © 2017 TWS. All rights reserved.

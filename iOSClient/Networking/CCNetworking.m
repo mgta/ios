@@ -1,6 +1,6 @@
 //
 //  CCNetworking.m
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 01/06/15.
 //  Copyright (c) 2017 TWS. All rights reserved.

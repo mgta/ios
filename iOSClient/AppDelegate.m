@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 04/09/14.
 //  Copyright (c) 2017 TWS. All rights reserved.
@@ -119,7 +119,7 @@
     if (![[NSFileManager defaultManager] fileExistsAtPath: dir] && [dir length])
         [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil];
 
-    // create dir Database Nextcloud
+    // create dir Database TheBox
     dir = [[dirGroup URLByAppendingPathComponent:appDatabaseNextcloud] path];
     if (![[NSFileManager defaultManager] fileExistsAtPath:dir])
     [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil];

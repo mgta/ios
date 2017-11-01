@@ -1,6 +1,6 @@
  //
 //  CCSplit.m
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 09/10/15.
 //  Copyright (c) 2017 TWS. All rights reserved.

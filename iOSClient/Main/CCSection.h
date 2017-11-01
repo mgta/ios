@@ -1,6 +1,6 @@
 //
 //  CCSection.h
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 04/02/16.
 //  Copyright (c) 2017 TWS. All rights reserved.

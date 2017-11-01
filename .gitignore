@@ -7,10 +7,11 @@
 #                                                                       #
 #########################################################################
 
-## Nextcloud
+## TheBox
 .DS_Store
 *.xcodeproj
 !Nextcloud.xcodeproj
+!TheBox.xcodeproj
 README.md
 Documentation/
 Custom/

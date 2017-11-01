@@ -1,6 +1,6 @@
 //
 //  CCExifGeo.h
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 03/02/16.
 //  Copyright (c) 2017 TWS. All rights reserved.

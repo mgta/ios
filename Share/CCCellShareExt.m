@@ -1,6 +1,6 @@
 //
 //  CCCellShareExt.m
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 29/07/15.
 //  Copyright (c) 2017 TWS. All rights reserved.

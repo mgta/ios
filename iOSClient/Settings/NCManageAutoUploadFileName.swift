@@ -1,6 +1,6 @@
 //
 //  NCManageAutoUploadFileName.swift
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 19/07/17.
 //  Copyright (c) 2017 TWS. All rights reserved.

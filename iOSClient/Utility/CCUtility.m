@@ -1,6 +1,6 @@
 //
 //  CCUtility.m
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 02/02/16.
 //  Copyright (c) 2017 TWS. All rights reserved.
@@ -567,7 +567,7 @@
     return [NSString stringWithFormat:@"%4.2f %@",value, [tokens objectAtIndex:multiplyFactor]];
 }
 
-// Remove do not forbidden characters for Nextcloud Server
+// Remove do not forbidden characters for TheBox Server
 + (NSString *)removeForbiddenCharactersServer:(NSString *)fileName
 {
     NSArray *arrayForbiddenCharacters = [NSArray arrayWithObjects:@"/", nil];

@@ -1,6 +1,6 @@
 //
 //  NCDatabase.swift
-//  Nextcloud iOS
+//  TheBox iOS
 //
 //  Created by Marino Faggiana on 06/05/17.
 //  Copyright © 2017 TWS. All rights reserved.
