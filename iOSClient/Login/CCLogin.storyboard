@@ -76,13 +76,13 @@
                                     <constraint firstAttribute="width" constant="25" id="glL-CW-aF0"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://share.thebox.de" placeholder="Server address https://…" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="szn-G7-5sK">
+                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://share.thebox.de" placeholder="Server address https://…" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="szn-G7-5sK">
                                 <rect key="frame" x="50" y="156" width="273" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="I2v-Zr-IWf"/>
                                 </constraints>
                                 <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="done"/>
                                 <connections>
                                     <action selector="handlebaseUrlchange:" destination="yj9-jo-WIn" eventType="editingDidEnd" id="efj-33-NT5"/>

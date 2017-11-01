@@ -64,14 +64,14 @@ class NCBrandColor: NSObject {
         return instance
     }()
     
-    @objc public let brand:                           String = "Nextcloud"
-    @objc public let mailMe:                          String = "ios@nextcloud.com"
-    @objc public let textCopyrightNextcloudiOS:       String = "Nextcloud for iOS %@ © 2017 T.W.S. Inc."
-    @objc public let textCopyrightNextcloudServer:    String = "Nextcloud Server %@"
+    @objc public let brand:                           String = "TheBox"
+    @objc public let mailMe:                          String = "info@magenta.org"
+    @objc public let textCopyrightNextcloudiOS:       String = "TheBox for iOS %@ © 2017 MAGENTA COMPUTER AG"
+    @objc public let textCopyrightNextcloudServer:    String = "TheBox Server %@"
     @objc public let loginBaseUrl:                    String = "https://cloud.twsweb.it"
     @objc public let loginBaseUrlMultiDomains:        [String] = ["domain.com", "domain.it"]
     @objc public let pushNotificationServer:          String = "https://push-notifications.nextcloud.com"
-    @objc public let linkLoginProvider:               String = "https://nextcloud.com/providers"
+    @objc public let linkLoginProvider:               String = "https://www.magenta.org"
     @objc public let textLoginProvider:               String = "_login_bottom_label_"
     @objc public let middlewarePingUrl:               String = ""
     @objc public let webLoginAutenticationProtocol:   String = ""
