@@ -27,7 +27,7 @@
 "_intro_11_text_"   = "Swipe → or ←: Options \n\nLong touch: Copy/Paste or Open in… \n\nPress: 3D Touch (when available)";
 
 "_intro_2_title_"   = "Multi account";
-"_intro_2_text_"    = "Connect to all your clouds and touch the TheBox logo on the Files tab to switch between them";
+"_intro_2_text_"    = "Connect to all your clouds and touch the TheBox logo on the Files tab to switch between them (only included in TheBox PRO)";
 
 "_intro_3_title_"   = "Start";
 "_intro_3_text_"    = "Good, TheBox is ready for use. Further information, news and contact-information to be found on https://magenta.org";
