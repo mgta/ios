@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [2.17.9] - 2017-xx-xx
 
-## [2.18.0] - 2017-10-27
+## [2.18.1] - 2017-10-27
 ### Added
 - More compatibility with iOS 11 and with iPhone X
 - Added on AutoUpload "More compatibility" for save image in JPEG instead of HEIF
